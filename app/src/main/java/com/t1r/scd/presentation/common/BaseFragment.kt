@@ -1,0 +1,28 @@
+package com.t1r.scd.presentation.common
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.t1r.scd.App
+import com.t1r.scd.di.ApplicationComponent
+import javax.inject.Inject
+
+abstract class BaseFragment : Fragment() {
+
+    abstract fun layoutId(): Int
+
+    val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
+        (activity?.application as App).appComponent
+    }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        inflater.inflate(layoutId(), container, false)
+
+
+}

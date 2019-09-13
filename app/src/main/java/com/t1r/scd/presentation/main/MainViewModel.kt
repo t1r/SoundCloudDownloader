@@ -1,4 +1,4 @@
-package com.t1r.scd.ui.main
+package com.t1r.scd.presentation.main
 
 import androidx.lifecycle.ViewModel
 
