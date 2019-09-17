@@ -4,9 +4,7 @@ import android.os.Bundle
 import com.t1r.scd.R
 import com.t1r.scd.core.utils.Failure
 import com.t1r.scd.presentation.common.BaseFragment
-import com.t1r.scd.presentation.extension.observe
-import com.t1r.scd.presentation.extension.failure
-import com.t1r.scd.presentation.extension.viewModel
+import com.t1r.scd.presentation.extension.*
 import kotlinx.android.synthetic.main.fragment_search_track.*
 
 class SearchTrackFragment : BaseFragment() {
@@ -20,20 +18,26 @@ class SearchTrackFragment : BaseFragment() {
         appComponent.inject(this)
 
         searchTrackViewModel = viewModel(viewModelFactory) {
-            observe(list, ::displayItem)
+            observe(list, ::displaySearchedResult)
             failure(failure, ::displayFailure)
         }
     }
 
-    private fun displayItem(list: List<Int>?) {
-        result.text = list.toString()
+    private fun displaySearchedResult(list: List<Int>?) {
+        if (list.isNullOrEmpty()) {
+            emptyMessage.show()
+            searchedList.gone()
+        } else {
+            emptyMessage.gone()
+            searchedList.show()
+        }
     }
 
     private fun displayFailure(failure: Failure?) {
 
     }
 
-    companion object{
-        fun newInstance() : SearchTrackFragment = SearchTrackFragment()
+    companion object {
+        fun newInstance(): SearchTrackFragment = SearchTrackFragment()
     }
 }

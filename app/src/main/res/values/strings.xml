@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SoundCloudDownloader</string>
+
+    <string name="search_track_empty_message">Ничего нет</string>
 </resources>
