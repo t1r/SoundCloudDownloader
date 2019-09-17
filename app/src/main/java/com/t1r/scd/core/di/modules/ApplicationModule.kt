@@ -1,4 +1,4 @@
-package com.t1r.scd.di.modules
+package com.t1r.scd.core.di.modules
 
 import android.content.Context
 import com.t1r.scd.App

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.t1r.scd.App
-import com.t1r.scd.di.ApplicationComponent
+import com.t1r.scd.core.di.ApplicationComponent
 import javax.inject.Inject
 
 abstract class BaseFragment : Fragment() {
@@ -23,6 +23,4 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layoutId(), container, false)
-
-
 }
