@@ -71,7 +71,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.1.1")
 
     //DI
-    val daggerVersion = "2.11"
+    val daggerVersion = "2.24"
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     implementation("com.google.dagger:dagger:$daggerVersion")
 
