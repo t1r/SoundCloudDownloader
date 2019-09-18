@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
@@ -31,10 +33,11 @@ android {
     }
 
     buildTypes {
-        create("debugPG") {
-            initWith(getByName("debug"))
-            isMinifyEnabled = true
-            versionNameSuffix = " debugPG"
+        getByName("debug") {
+            buildConfigField("String", "SC_CLIENT_ID", "\"" + getClientId() + "\"")
+
+            isMinifyEnabled = false
+            versionNameSuffix = "_debug"
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -42,8 +45,9 @@ android {
             )
         }
         getByName("release") {
-            isMinifyEnabled = false
+            buildConfigField("String", "SC_CLIENT_ID", "\"" + getClientId() + "\"")
 
+            isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("prod")
 
             proguardFiles(
@@ -79,4 +83,11 @@ dependencies {
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test:runner:1.2.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
+}
+
+fun getClientId() : String {
+    val keysFile = rootProject.file("keys.properties")
+    val keysProperties = Properties()
+    keysProperties.load(FileInputStream(keysFile))
+    return keysProperties.getProperty("SC_CLIENT_ID")
 }
