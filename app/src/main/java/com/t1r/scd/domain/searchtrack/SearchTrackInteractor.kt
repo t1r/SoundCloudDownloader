@@ -8,6 +8,6 @@ class SearchTrackInteractor @Inject constructor(
     private val searchTrackRepository: SearchTrackRepository
 ) {
 
-    suspend  fun searchTrack(): SearchedTrack =
+    suspend fun searchTrack(): SearchedTrack =
         searchTrackRepository.searchTrack()
 }

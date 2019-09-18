@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.t1r.scd.ScdApp
-import com.t1r.scd.core.di.AppComponent
 import com.t1r.scd.core.di.holder.ActivityToolsHolder
 import com.t1r.scd.core.di.provider.MainActivityToolsProvider
 import javax.inject.Inject

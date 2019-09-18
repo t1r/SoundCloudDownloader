@@ -6,6 +6,7 @@ import com.t1r.scd.core.di.component.ViewModelFactoryComponent
 import com.t1r.scd.core.di.provider.AppProvider
 import com.t1r.scd.core.di.provider.DeviceToolsProvider
 import com.t1r.scd.core.di.provider.ViewModelFactoryProvider
+import com.t1r.scd.presentation.searchtrack.di.SearchTrackComponent
 import dagger.Component
 import javax.inject.Singleton
 
@@ -28,8 +29,14 @@ interface AppComponent : AppProvider {
                 val deviceToolsProvider =
                     DeviceToolsComponent.Initializer.init(app)
 
+                val searchTrackProvider =
+                    SearchTrackComponent.Initializer.init(deviceToolsProvider)
+
                 val viewModelFactoryProvider =
-                    ViewModelFactoryComponent.Initializer.init(deviceToolsProvider)
+                    ViewModelFactoryComponent.Initializer.init(
+                        deviceToolsProvider,
+                        searchTrackProvider
+                    )
 
                 return DaggerAppComponent.builder()
                     .deviceToolsProvider(deviceToolsProvider)
