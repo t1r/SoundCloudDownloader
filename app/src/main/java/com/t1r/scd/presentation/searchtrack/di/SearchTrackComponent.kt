@@ -3,14 +3,18 @@ package com.t1r.scd.presentation.searchtrack.di
 import com.t1r.scd.core.di.provider.MainActivityToolsProvider
 import com.t1r.scd.presentation.searchtrack.SearchTrackFragment
 import dagger.Component
-import javax.inject.Singleton
+import javax.inject.Scope
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class SearchTrackScope
 
 @Component(
     dependencies = [
         MainActivityToolsProvider::class
     ]
 )
-@Singleton
+@SearchTrackScope
 interface SearchTrackScreenComponent {
 
     fun inject(fragment: SearchTrackFragment)
