@@ -2,6 +2,8 @@ package com.t1r.scd.presentation.searchtrack.di
 
 import com.t1r.scd.core.di.provider.MainActivityToolsProvider
 import com.t1r.scd.presentation.searchtrack.SearchTrackFragment
+import com.t1r.scd.presentation.searchtrack.di.module.SearchTrackModule
+import com.t1r.scd.presentation.searchtrack.di.module.SearchTrackNetworkeModule
 import dagger.Component
 import javax.inject.Scope
 
@@ -12,6 +14,10 @@ annotation class SearchTrackScope
 @Component(
     dependencies = [
         MainActivityToolsProvider::class
+    ],
+    modules = [
+        SearchTrackModule::class,
+        SearchTrackNetworkeModule::class
     ]
 )
 @SearchTrackScope

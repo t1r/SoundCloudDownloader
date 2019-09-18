@@ -11,8 +11,9 @@ interface SearchTrackRepository {
 
 class SearchTrackRepositoryImpl @Inject constructor(
     private val api: SoundCloudApi
-) {
-    suspend fun searchTrack(): SearchedTrack {
+) : SearchTrackRepository {
+
+    override suspend fun searchTrack(): SearchedTrack {
         return api.searchTrack()
     }
 }

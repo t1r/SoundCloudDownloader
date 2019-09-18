@@ -2,11 +2,14 @@ package com.t1r.scd.presentation.searchtrack
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.t1r.scd.domain.searchtrack.SearchTrackInteractor
 import com.t1r.scd.presentation.common.BaseViewModel
 import java.util.*
 import javax.inject.Inject
 
-class SearchTrackViewModel @Inject constructor() : BaseViewModel() {
+class SearchTrackViewModel @Inject constructor(
+    private val searchTrackInteractor: SearchTrackInteractor
+) : BaseViewModel() {
 
     internal val list = MutableLiveData<List<Int>>()
 
@@ -15,8 +18,6 @@ class SearchTrackViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun firstLoad() {
-        val item = Random().nextInt()
-        Log.d("TAG", item.toString())
-        list.value = listOf(item)
+//        searchTrackInteractor.searchTrack()
     }
 }
