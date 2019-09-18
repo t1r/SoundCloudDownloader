@@ -6,14 +6,14 @@ import javax.inject.Inject
 
 
 interface SearchTrackRepository {
-    suspend fun searchTrack(): SearchedTrack
+    suspend fun searchTrack(text: String): SearchedTrack
 }
 
 class SearchTrackRepositoryImpl @Inject constructor(
     private val api: SoundCloudApi
 ) : SearchTrackRepository {
 
-    override suspend fun searchTrack(): SearchedTrack {
-        return api.searchTrack()
+    override suspend fun searchTrack(text: String): SearchedTrack {
+        return api.searchTrack(text)
     }
 }
