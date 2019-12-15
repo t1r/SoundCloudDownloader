@@ -1,12 +1,15 @@
 package com.t1r.scd.data.api.model
 
 import kotlinx.serialization.*
-import kotlinx.serialization.json.*
 
 @Serializable
 data class SearchedTrack(
     @SerialName("collection")
-    val collection: List<SearchedTrackRow>
+    val collection: List<SearchedTrackRow>,
+    @SerialName("next_href")
+    val nextHref: String?,
+    @SerialName("query_urn")
+    val queryUrn: String?
 )
 
 @Serializable

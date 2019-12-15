@@ -42,7 +42,7 @@ class NetworkToolsModule {
             block: HttpClientConfig<T>.() -> Unit = {}
         ): HttpClient = HttpClient(engineFactory) {
             Json {
-                serializer = KotlinxSerializer()
+                serializer = KotlinxSerializer(kotlinx.serialization.json.Json.nonstrict)
             }
             if (BuildConfig.DEBUG) Logging {
                 logger = Logger.SIMPLE //ANDROID doesn't write to logcat :/
