@@ -5,28 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.t1r.scd.core.di.holder.ActivityToolsHolder
-import com.t1r.scd.core.di.provider.MainActivityToolsProvider
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-abstract class BaseFragment : Fragment() {
-
-    protected val parentActivityComponent: MainActivityToolsProvider by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (activity as? ActivityToolsHolder)?.getActivityToolsProvider()
-            ?: throw UnsupportedOperationException("Parent activity must implement ActivityToolsHolder interface")
-    }
+abstract class BaseFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     abstract fun layoutId(): Int
 
-    abstract fun inject()
-
     override fun onAttach(context: Context) {
-        inject()
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

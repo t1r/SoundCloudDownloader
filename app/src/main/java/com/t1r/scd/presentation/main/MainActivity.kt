@@ -1,33 +1,59 @@
 package com.t1r.scd.presentation.main
 
+import android.graphics.Rect
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.t1r.scd.R
-import com.t1r.scd.core.di.App
-import com.t1r.scd.core.di.component.MainActivityComponent
-import com.t1r.scd.core.di.holder.ActivityToolsHolder
-import com.t1r.scd.core.di.provider.MainActivityToolsProvider
-import com.t1r.scd.presentation.searchtrack.SearchTrackFragment
+import com.t1r.scd.core.navigation.AppLauncher
+import com.t1r.scd.core.utils.extension.doOnApplyWindowInsets
+import com.t1r.scd.presentation.common.BaseActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import ru.terrakok.cicerone.commands.Command
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(),
-    ActivityToolsHolder {
+class MainActivity : BaseActivity() {
 
-    private val mainActivityComponent: MainActivityComponent by lazy {
-        val appComponent = (applicationContext as App).getAppComponent()
-        MainActivityComponent.Initializer.init(appComponent)
-    }
+    @Inject
+    lateinit var appLauncher: AppLauncher
 
-    override fun getActivityToolsProvider(): MainActivityToolsProvider = mainActivityComponent
+    override val navigator: Navigator =
+        object : SupportAppNavigator(this, supportFragmentManager, R.id.main_container) {
+            override fun setupFragmentTransaction(
+                command: Command,
+                currentFragment: Fragment?,
+                nextFragment: Fragment,
+                fragmentTransaction: FragmentTransaction
+            ) {
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mainActivityComponent.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SearchTrackFragment.newInstance())
-                .commitNow()
-        }
+        setContentView(R.layout.activity_main)
+        if (savedInstanceState == null) coldStart()
+        applyInsets()
     }
 
+    fun coldStart() = appLauncher.coldStart()
+
+    private fun applyInsets() {
+        main_container.doOnApplyWindowInsets { view, insets, initialPadding ->
+            view.updatePadding(
+                left = initialPadding.left + insets.systemWindowInsetLeft,
+                right = initialPadding.right + insets.systemWindowInsetRight
+            )
+            insets.replaceSystemWindowInsets(
+                Rect(
+                    0,
+                    insets.systemWindowInsetTop,
+                    0,
+                    insets.systemWindowInsetBottom
+                )
+            )
+        }
+    }
 }

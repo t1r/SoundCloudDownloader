@@ -1,20 +1,28 @@
 package com.t1r.scd
 
 import android.app.Application
-import com.t1r.scd.core.di.App
-import com.t1r.scd.core.di.AppComponent
-import com.t1r.scd.core.di.provider.AppProvider
+import com.t1r.scd.core.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
+import javax.inject.Inject
 
-class ScdApp : Application(), App {
+class ScdApp : Application(), HasAndroidInjector {
 
-    private val appComponent: AppComponent by lazy {
-        AppComponent.Initializer.init(this@ScdApp)
-    }
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
-        appComponent.inject(this)
+        setupDagger()
     }
 
-    override fun getAppComponent(): AppProvider = appComponent
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
+
+    private fun setupDagger() {
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
+            .inject(this)
+    }
 }

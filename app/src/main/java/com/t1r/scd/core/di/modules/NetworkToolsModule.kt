@@ -4,6 +4,7 @@ import com.t1r.scd.BuildConfig
 import com.t1r.scd.core.utils.AppConst.MOCK
 import com.t1r.scd.data.api.mock.ScApiMockHandler
 import dagger.Module
+import dagger.Provides
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
@@ -25,7 +26,16 @@ import javax.inject.Singleton
 class NetworkToolsModule {
 
     @KtorExperimentalAPI
+    @Module
     companion object {
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun buildHttpClient(): HttpClient {
+            return if (BuildConfig.FLAVOR == MOCK) buildHttpClient(Android)
+            else buildMockedHttpClient()
+        }
 
         private fun <T : HttpClientEngineConfig> buildHttpClient(
             engineFactory: HttpClientEngineFactory<T>,
@@ -41,13 +51,6 @@ class NetworkToolsModule {
             expectSuccess = false
 
             block.invoke(this)
-        }
-
-        @JvmStatic
-        @Singleton
-        fun buildHttpClient(): HttpClient {
-            return if (BuildConfig.FLAVOR == MOCK) buildHttpClient(Android)
-            else buildMockedHttpClient()
         }
 
         private fun buildMockedHttpClient(): HttpClient = buildHttpClient(MockEngine) {

@@ -1,48 +1,33 @@
 package com.t1r.scd.core.di
 
+import android.app.Application
 import com.t1r.scd.ScdApp
-import com.t1r.scd.core.di.component.DeviceToolsComponent
-import com.t1r.scd.core.di.component.ViewModelFactoryComponent
-import com.t1r.scd.core.di.provider.AppProvider
-import com.t1r.scd.core.di.provider.DeviceToolsProvider
-import com.t1r.scd.core.di.provider.ViewModelFactoryProvider
-import com.t1r.scd.presentation.searchtrack.di.SearchTrackComponent
+import com.t1r.scd.core.di.modules.AppModule
+import com.t1r.scd.core.di.modules.NavigationModule
+import com.t1r.scd.core.di.modules.NetworkToolsModule
+import com.t1r.scd.core.di.modules.ViewModelFactoryModule
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
+@Singleton
 @Component(
-    dependencies = [
-        DeviceToolsProvider::class,
-        ViewModelFactoryProvider::class
+    modules = [
+        AppModule::class,
+        NetworkToolsModule::class,
+        NavigationModule::class,
+        ViewModelFactoryModule::class
     ]
 )
-@Singleton
-interface AppComponent : AppProvider {
+interface AppComponent {
 
     fun inject(app: ScdApp)
 
-    class Initializer private constructor() {
-        companion object {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(app: Application): Builder
 
-            fun init(app: ScdApp): AppComponent {
-
-                val deviceToolsProvider =
-                    DeviceToolsComponent.Initializer.init(app)
-
-                val searchTrackProvider =
-                    SearchTrackComponent.Initializer.init(deviceToolsProvider)
-
-                val viewModelFactoryProvider =
-                    ViewModelFactoryComponent.Initializer.init(
-                        deviceToolsProvider,
-                        searchTrackProvider
-                    )
-
-                return DaggerAppComponent.builder()
-                    .deviceToolsProvider(deviceToolsProvider)
-                    .viewModelFactoryProvider(viewModelFactoryProvider)
-                    .build()
-            }
-        }
+        fun build(): AppComponent
     }
 }

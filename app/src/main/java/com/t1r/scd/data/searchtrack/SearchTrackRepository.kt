@@ -4,15 +4,12 @@ import com.t1r.scd.data.api.SoundCloudApi
 import com.t1r.scd.data.api.model.SearchedTrack
 import javax.inject.Inject
 
-interface SearchTrackRepository {
-    suspend fun searchTrack(text: String): SearchedTrack
-}
 
-class SearchTrackRepositoryImpl @Inject constructor(
+class SearchTrackRepository @Inject constructor(
     private val api: SoundCloudApi
-) : SearchTrackRepository {
+) {
 
-    override suspend fun searchTrack(text: String): SearchedTrack {
+    suspend fun searchTrack(text: String): SearchedTrack {
         return api.searchTrack(text)
     }
 }

@@ -61,13 +61,18 @@ android {
     productFlavors {
         create("mock") {
             setDimension("target")
-            buildConfigField("String", "BASE_URL","\"https://api-v2.soundcloud.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api-v2.soundcloud.com/\"")
             versionNameSuffix = "_mock"
         }
         create("prod") {
             setDimension("target")
-            buildConfigField("String", "BASE_URL","\"https://api-v2.soundcloud.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api-v2.soundcloud.com/\"")
         }
+    }
+
+    packagingOptions {
+        exclude("META-INF/common.kotlin_module")
+        exclude("META-INF/*.kotlin_module")
     }
 }
 
@@ -75,7 +80,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${KotlinCompilerVersion.VERSION}")
 
-    //UI
+    /* UI */
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.core:core-ktx:1.1.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
@@ -83,7 +88,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
 
-    //Network
+    /* Network */
     val ktorVersion = "1.2.6"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
@@ -92,19 +97,24 @@ dependencies {
     implementation("io.ktor:ktor-client-logging-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
 
+    /* Navigation */
+    implementation("ru.terrakok.cicerone:cicerone:5.0.0")
 
-    //DI
-    val daggerVersion = "2.24"
-    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+    /* DI */
+    val daggerVersion = "2.25.2"
     implementation("com.google.dagger:dagger:$daggerVersion")
+    implementation("com.google.dagger:dagger-android:$daggerVersion")
+    implementation("com.google.dagger:dagger-android-support:$daggerVersion")
+    kapt("com.google.dagger:dagger-android-processor:$daggerVersion")
+    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
-    //Test
+    /* Test */
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test:runner:1.2.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 }
 
-fun getClientId() : String {
+fun getClientId(): String {
     val keysFile = rootProject.file("keys.properties")
     val keysProperties = Properties()
     keysProperties.load(FileInputStream(keysFile))
