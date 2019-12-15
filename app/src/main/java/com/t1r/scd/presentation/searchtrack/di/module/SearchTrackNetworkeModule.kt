@@ -1,6 +1,6 @@
 package com.t1r.scd.presentation.searchtrack.di.module
 
-import com.t1r.scd.data.network.SoundCloudApi
+import com.t1r.scd.data.api.SoundCloudApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

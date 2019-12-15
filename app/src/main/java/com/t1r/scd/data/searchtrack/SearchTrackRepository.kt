@@ -1,9 +1,8 @@
 package com.t1r.scd.data.searchtrack
 
-import com.t1r.scd.data.network.SoundCloudApi
-import com.t1r.scd.data.network.searchtrack.SearchedTrack
+import com.t1r.scd.data.api.SoundCloudApi
+import com.t1r.scd.data.api.model.SearchedTrack
 import javax.inject.Inject
-
 
 interface SearchTrackRepository {
     suspend fun searchTrack(text: String): SearchedTrack

@@ -5,7 +5,7 @@ import com.t1r.scd.core.utils.extension.right
 import com.t1r.scd.core.utils.type.Either
 import com.t1r.scd.core.utils.type.Failure
 import com.t1r.scd.core.utils.type.Failure.SimpleFailure
-import com.t1r.scd.data.network.searchtrack.SearchedTrack
+import com.t1r.scd.data.api.model.SearchedTrack
 import com.t1r.scd.data.searchtrack.SearchTrackRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
