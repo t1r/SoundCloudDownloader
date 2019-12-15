@@ -11,7 +11,7 @@ plugins {
 
 android {
     compileSdkVersion(29)
-    buildToolsVersion = "29.0.0"
+    buildToolsVersion = "29.0.2"
 
     defaultConfig {
         applicationId = "com.t1r.scd"
@@ -56,6 +56,19 @@ android {
             )
         }
     }
+
+    flavorDimensions("target")
+    productFlavors {
+        create("mock") {
+            setDimension("target")
+            buildConfigField("String", "BASE_URL","\"https://api-v2.soundcloud.com/\"")
+            versionNameSuffix = "_mock"
+        }
+        create("prod") {
+            setDimension("target")
+            buildConfigField("String", "BASE_URL","\"https://api-v2.soundcloud.com/\"")
+        }
+    }
 }
 
 dependencies {
@@ -68,11 +81,17 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
     implementation("androidx.lifecycle:lifecycle-extensions:2.1.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0")
-    implementation("androidx.recyclerview:recyclerview:1.1.0-beta04")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
 
     //Network
-    implementation("com.squareup.retrofit2:converter-gson:2.6.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.1.1")
+    val ktorVersion = "1.2.6"
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-android:$ktorVersion")
+    implementation("io.ktor:ktor-client-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-serialization-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-client-logging-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
+
 
     //DI
     val daggerVersion = "2.24"
