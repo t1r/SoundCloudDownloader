@@ -4,6 +4,7 @@ import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.plugin.serialization")
     kotlin("android")
     kotlin("kapt")
     kotlin("android.extensions")
