@@ -33,8 +33,8 @@ class NetworkToolsModule {
         @JvmStatic
         @Singleton
         fun buildHttpClient(): HttpClient {
-            return if (BuildConfig.FLAVOR == MOCK) buildHttpClient(Android)
-            else buildMockedHttpClient()
+            return if (BuildConfig.FLAVOR == MOCK) buildMockedHttpClient()
+            else buildHttpClient(Android)
         }
 
         private fun <T : HttpClientEngineConfig> buildHttpClient(

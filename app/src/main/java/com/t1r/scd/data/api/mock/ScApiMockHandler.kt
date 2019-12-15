@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 object ScApiMockHandler {
     suspend fun mock(request: HttpRequestData): HttpResponseData? = when {
 
-        request.url.fullUrl == BASE_URL + API_SEARCH_QUERIES
+        request.url.fullUrl.startsWith(BASE_URL + API_SEARCH_QUERIES)
                 && request.method == HttpMethod.Get -> {
             delay(GLOBAL_DELAY)
             respond(
